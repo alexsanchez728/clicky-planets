@@ -25,15 +25,18 @@ var planets = [{
 }];
 
 var planetHolderDiv = document.getElementById("planetHolder");
-var getPlanetsButton = document.getElementById("showButton")
+var getPlanetsButton = document.getElementById("showButton");
+var inputField = document.getElementById("searchText");
+var clearButton = document.getElementById("clearButton");
 
-function domString() {
+// Accepts an argument
+function domString(planetz) {
 	var planetString = "";
-	for(var i=0; i < planets.length; i++) {
+	for(var i=0; i < planetz.length; i++) {
 		var newPlanet = "";
 		newPlanet += `<div class="planetBox" id="planetBox-${i}">`;
-		newPlanet += `<div class="planetName">${planets[i].name}</div>`;
-		newPlanet += `<img class="planetImage" src="${planets[i].url}">`;
+		newPlanet += `<div class="planetName hidden">${planetz[i].name}</div>`;
+		newPlanet += `<img class="planetImage" src="${planetz[i].url}">`;
 		newPlanet += `</div>`;
 		planetString += newPlanet;
 	}
@@ -45,9 +48,43 @@ function writeToDom(strang){
 }
 
 getPlanetsButton.addEventListener('mouseenter', function(){
-	domString();
+	//originally you want to pass it the whole array
+	domString(planets);
 });
+// console log out the event, and then dig into the element
 
+function showMe(event){
+	event.target.previousElementSibling.classList.remove('hidden');
+}
+
+document.body.addEventListener('click', function(e){
+	// have the base available
+		// console.log("click Event", e);
+	//and then start digging
+		// console.log("click Event", e.target.parentNode.parentNode);
+	if(e.target.className === "planetImage") {
+		showMe(e);
+	}
+
+})
+//once you hit enter, THEN it grabs the input value
+inputField.addEventListener('keypress', function(event){
+	if(event.key === 'Enter') {
+		var txt = inputField.value;
+		//by default, filter loops through the array
+			//thing = the current planet that I'm on, does it fit?
+		var results = planets.filter(function(thing) {
+			//if the indexOf actually has something, than it doesn't equal -1 which means return that
+			return thing.name.indexOf(txt)>-1;
+		})
+		// pass in the shortened array to print
+		domString(results);
+	}
+})
+//clear button
+clearButton.addEventListener('click', function(eVent){
+	
+})
 
 
 
