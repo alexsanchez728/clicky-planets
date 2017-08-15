@@ -82,8 +82,8 @@ inputField.addEventListener('keypress', function(event){
 	}
 })
 //clear button
-clearButton.addEventListener('click', function(eVent){
-	
+clearButton.addEventListener('click', function(){
+	inputField.value = "";
 })
 
 
